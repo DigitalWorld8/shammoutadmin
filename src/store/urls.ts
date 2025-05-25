@@ -1,6 +1,6 @@
 
-export const BASE_URL = 'https://appsrv01';
-export const BASE_PROD_URL = 'https://appsrv01/shammout';
+export const BASE_URL = 'https://shammoutgroup.com/api';
+export const BASE_PROD_URL = 'https://shammoutgroup.com/api';
 export const BASE_CMS_PROD_URL = `${BASE_PROD_URL}/cms`;
 export const BASE_GALLERY_PROD_URL = `${BASE_PROD_URL}/gallery`;
 
@@ -41,5 +41,5 @@ export const FilesUrl = `${FILES_BASE_URL}/getby-galleryid`;
 export const CustomForm = `CustomForm`;
 
 
-export const SHAMOUT_URL = `https://devsrv01:802`
+export const SHAMOUT_URL = `https://shammoutgroup.com`
 

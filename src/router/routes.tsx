@@ -2,6 +2,7 @@ import { lazy } from 'react';
 import Cms from '../pages/Cms/Cms';
 import Gallery from '../pages/Gallery';
 import CustomFormsTable from '../pages/CustomFormsTable';
+import UsersPage from '../Dashboard/Users/UsersPage';
 const Index = lazy(() => import('../pages/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
 const Finance = lazy(() => import('../pages/Finance'));
@@ -328,7 +329,7 @@ const routes = [
     {
         path: '/cms',
         element:
-         <Cms />,
+            <Cms />,
     },
     {
         path: '/gallery',
@@ -557,6 +558,11 @@ const routes = [
         path: '/*',
         element: <Error />,
         layout: 'blank',
+    },
+    // Dashboard
+    {
+        path: '/dashboard/users',
+        element: <UsersPage />,
     },
 ];
 
