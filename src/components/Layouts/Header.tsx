@@ -33,6 +33,7 @@ import IconMenuForms from '../Icon/Menu/IconMenuForms';
 import IconMenuPages from '../Icon/Menu/IconMenuPages';
 import IconMenuMore from '../Icon/Menu/IconMenuMore';
 import { User } from 'lucide-react';
+import CountdownChip from './CountdownChip';
 
 const Header = () => {
     const location = useLocation();
@@ -162,7 +163,9 @@ const Header = () => {
                         >
                             <IconMenu className="w-5 h-5" />
                         </button>
+
                     </div>
+
 
                     {/* <div className="ltr:mr-2 rtl:ml-2 hidden sm:block">
                         <ul className="flex items-center space-x-2 rtl:space-x-reverse dark:text-[#d0d2d6]">
@@ -184,7 +187,9 @@ const Header = () => {
                         </ul>
                     </div> */}
                     <div className="sm:flex-1 ltr:sm:ml-0 ltr:ml-auto sm:rtl:mr-0 rtl:mr-auto flex items-center space-x-1.5 lg:space-x-2 rtl:space-x-reverse dark:text-[#d0d2d6]">
+
                         <div className="sm:ltr:mr-auto sm:rtl:ml-auto">
+
                             {/* <form
                                 className={`${search && '!block'} sm:relative absolute inset-x-0 sm:top-0 top-1/2 sm:translate-y-0 -translate-y-1/2 sm:mx-0 mx-4 z-10 sm:block hidden`}
                                 onSubmit={() => setSearch(false)}
@@ -210,6 +215,10 @@ const Header = () => {
                             >
                                 <IconSearch className="w-4.5 h-4.5 mx-auto dark:text-[#d0d2d6]" />
                             </button>
+                        </div>
+                        <div>
+                            <CountdownChip expiresOn="2025-05-26T09:25:13Z" />
+
                         </div>
                         <div>
                             {themeConfig.theme === 'light' ? (
@@ -250,7 +259,9 @@ const Header = () => {
                                     <IconLaptop />
                                 </button>
                             )}
+
                         </div>
+
                         {/* <div className="dropdown shrink-0">
                             <Dropdown
                                 offset={[0, 8]}
@@ -417,12 +428,13 @@ const Header = () => {
                                 </ul>
                             </Dropdown>
                         </div> */}
+
                         <div className="dropdown shrink-0 flex">
                             <Dropdown
                                 offset={[0, 8]}
                                 placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
                                 btnClassName="relative group block"
-                                button={           <User className="w-6 h-6 text-gray-600" />}
+                                button={<User className="w-6 h-6 text-gray-600" />}
                             >
                                 <ul className="text-dark dark:text-white-dark !py-0 w-[290px] font-semibold dark:text-white-light/90">
                                     <li>
@@ -473,7 +485,9 @@ const Header = () => {
                                 </ul>
                             </Dropdown>
                         </div>
+
                     </div>
+
                 </div>
 
                 {/* horizontal menu */}

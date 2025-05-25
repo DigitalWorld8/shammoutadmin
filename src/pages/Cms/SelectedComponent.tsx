@@ -205,6 +205,7 @@ const Components: React.FC<ComponentsProps> = ({ selectedImg, setSelectedImg, ke
 
     };
 
+console.log('seg',seg);
 
 
     return (
@@ -223,7 +224,10 @@ const Components: React.FC<ComponentsProps> = ({ selectedImg, setSelectedImg, ke
                     <HeroSection handleClickEditIcon={handleClickEditIcon} setItem={setItem} comp={comp} textEditHandler={textEditHandler} contentData={comp?.parsedContent} />
                 }
                 {comp.type === 'Reach Us Section' &&
-                    <ReachUsSection handleClickEditIcon={handleClickEditIcon} setItem={setItem} comp={comp} textEditHandler={textEditHandler} contentData={comp?.parsedContent} />
+                    <ReachUsSection setSeg={setSeg} seg={segmentProp} setPageData={setPageData} handleClickEditIcon={handleClickEditIcon} setItem={setItem} comp={comp} textEditHandler={textEditHandler} contentData={comp?.parsedContent} />
+                }
+                {comp.type === 'Reach Us Section with cta' &&
+                    <ReachUsSection setSeg={setSeg} seg={segmentProp}  setPageData={setPageData} handleClickEditIcon={handleClickEditIcon} setItem={setItem} comp={comp} textEditHandler={textEditHandler} contentData={comp?.parsedContent} />
                 }
                 {comp.type === 'Assistance Section' &&
                     <AssistanceSection handleClickEditIcon={handleClickEditIcon} setItem={setItem} comp={comp} textEditHandler={textEditHandler} contentData={comp?.parsedContent} />

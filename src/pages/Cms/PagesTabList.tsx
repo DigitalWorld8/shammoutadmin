@@ -1,10 +1,11 @@
 'use client';
 
 import { Tab } from '@headlessui/react';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setPageUrl } from '../../store/slices/pagesSlice';
 import { useAppSelector } from '../../store';
+import LogoEditor from './components/LogoEditor';
 
 interface Page {
     title: string;
@@ -20,6 +21,22 @@ interface PagesTabListProps {
 const PagesTabList = ({ tabData, handleTabSelect, setIsModalOpen, saveChanges }: PagesTabListProps) => {
     const dispatch = useDispatch();
     const { isLoadingUpdateConstComp } = useAppSelector(state => state.pages)
+
+
+    const [logo, setLogo] = useState('https://cdn.builder.io/api/v1/image/assets/0088fdfbc5f845fe86a1c89db6aed806/ef55696ff67ea3de1f900af9552cd47587ba243e');
+    const [isLogoModalOpen, setIsLogoModalOpen] = useState(false);
+
+    const openModal = () => setIsLogoModalOpen(true);
+    const closeModal = () => setIsLogoModalOpen(false);
+
+    const saveLogo = (newLogo) => {
+        setLogo(newLogo);
+        closeModal();
+    };
+
+
+
+
     return (
         <div className="flex justify-between items-center border-b border-white-light dark:border-[#191e3a]">
             {/* Left side: Tabs */}
@@ -68,6 +85,15 @@ const PagesTabList = ({ tabData, handleTabSelect, setIsModalOpen, saveChanges }:
 
                 <button
                     onClick={() => {
+                        setIsLogoModalOpen(true);
+
+                    }}
+                    className="bg-pink-600 hover:bg-pink-700 text-white font-semibold rounded-lg px-6 py-2 transition-all duration-200"
+                >
+                    Edit Logo
+                </button>
+                <button
+                    onClick={() => {
                         setIsModalOpen(true);
                         dispatch(setPageUrl(''));
                     }}
@@ -84,7 +110,14 @@ const PagesTabList = ({ tabData, handleTabSelect, setIsModalOpen, saveChanges }:
                 </button>
 
             </div>
-
+            
+            <LogoEditor
+                logo={logo}
+                isModalOpen={isLogoModalOpen}
+                openModal={openModal}
+                closeModal={closeModal}
+                saveLogo={saveLogo}
+            />
 
         </div>
     );

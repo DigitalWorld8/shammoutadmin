@@ -30,8 +30,6 @@ const EditImageModal = ({ item, key, selectedImg, setSelectedImg, editImgHandler
 
 
     const handleSetImage = (newFileCreate) => {
-        console.log('handleSetImage Triggerd ', item);
-        console.log('newFileCreate', newFileCreate);
         editImgHandler(item, newFileCreate)
         onClose();
     };

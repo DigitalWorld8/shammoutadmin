@@ -16,10 +16,9 @@ const ReachUsSection: React.FC<ReachUsSectionProps> = ({
     comp,
     contentData = [],
     textEditHandler,
-    setItem,
-    handleClickEditIcon
+    setItem, seg,
+    handleClickEditIcon, setPageData, setSeg
 }) => {
-
 
     return (
         <section className=" max-md:mt-10">
@@ -32,11 +31,13 @@ const ReachUsSection: React.FC<ReachUsSectionProps> = ({
                                 card={
                                     contact
                                 }
-
+                                seg={seg}
+                                setSeg={setSeg}
+                                setPageData={setPageData}
                                 contentData={contentData}
                                 index={index}
                                 textEditHandler={textEditHandler}
-                                setItem={setItem}handleClickEditIcon={handleClickEditIcon}
+                                setItem={setItem} handleClickEditIcon={handleClickEditIcon}
                             />
                         </div>
                     ))}

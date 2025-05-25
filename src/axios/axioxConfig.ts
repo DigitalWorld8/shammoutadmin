@@ -55,7 +55,7 @@ const setupInterceptors = (navigate: NavigateFunction) => {
                             icon: 'warning',
                             title: 'Unauthorized. Redirecting...',
                         });
-                        // navigate('/auth/boxed-signin');
+                        navigate('/auth/boxed-signin');
                         break;
 
                     case 400:

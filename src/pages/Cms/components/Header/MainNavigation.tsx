@@ -19,12 +19,27 @@ export const MainNavigation: React.FC<MainNavigationProps> = ({ isMobile, header
                 <nav className=" relative bg-white/80 backdrop-blur-md w-full flex items-center gap-5 text-[rgba(30,57,94,1)] font-semibold flex-wrap justify-center py-4 px-4 shadow-sm border border-[#cccccc52]">
                     <div className=" relative w-full mx-auto flex justify-between items-center">
                         {/* Logo */}
-                        <img
+                        {/* <img
                             src="https://cdn.builder.io/api/v1/image/assets/0088fdfbc5f845fe86a1c89db6aed806/ef55696ff67ea3de1f900af9552cd47587ba243e"
                             alt="Shammout Group Logo"
                             className="aspect-[3.1] object-contain w-[120px] md:w-[167px]"
-                        />
-
+                        /> */}
+                        <div className="relative inline-block">
+                            <img
+                                src="https://cdn.builder.io/api/v1/image/assets/0088fdfbc5f845fe86a1c89db6aed806/ef55696ff67ea3de1f900af9552cd47587ba243e"
+                                alt="Logo"
+                                className="aspect-[3.1] object-contain w-[120px] md:w-[167px]"
+                            />
+                            <button
+                                onClick={() => {
+                                    // setIsUploadModalOpen(true)
+                                }}
+                                className="absolute bottom-10 left-0 bg-white bg-opacity-90 p-1 rounded-full shadow  hover:text-white transition"
+                                title="Edit Logo URL"
+                            >
+                                ✏️
+                            </button>
+                        </div>
                         {/* Desktop Navigation */}
                         <DesktopNavigation header={header} labels={labels} setLabels={setLabels} submitHeaderData={submitHeaderData} />
 

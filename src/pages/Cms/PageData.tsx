@@ -10,6 +10,7 @@ import { useAppSelector } from "../../store";
 import IconEye from "../../components/Icon/IconEye";
 import { ExternalLink } from "lucide-react";
 import { SHAMOUT_URL } from "../../store/urls";
+import { useTranslation } from "react-i18next";
 
 
 interface PageDataProps {
@@ -31,6 +32,7 @@ const PageData: React.FC<PageDataProps> = ({
     updatePageTitle,
     updatePageDescription, selectedLang, selectedPos
 }) => {
+    const { t } = useTranslation()
     const { isLoadingUpdatePage } = useAppSelector(state => state.pages)
     return (
         <div className=" p-2">
@@ -123,7 +125,7 @@ const PageData: React.FC<PageDataProps> = ({
                             color: '#374151', // gray-700
                         }}
                     >
-                        Page Title
+                        {t("Page_Title")}
                     </label>
                     <input
                         id="page-title"
@@ -152,7 +154,9 @@ const PageData: React.FC<PageDataProps> = ({
                             color: '#374151', // gray-700
                         }}
                     >
-                        Page Description
+                        {t("Page_Description")}
+
+                      
                     </label>
                     <textarea
                         id="page-description"

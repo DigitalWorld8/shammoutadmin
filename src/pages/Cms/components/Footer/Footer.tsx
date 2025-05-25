@@ -156,6 +156,7 @@ const handleInput = (
                   suppressContentEditableWarning
                   onBlur={e => handleInput("footerContent.footer.phone", e.currentTarget.textContent || "")}
                   className="text-white text-[13px] font-bold cursor-text"
+                  style={{direction:'ltr'}}
                 >
                   {footerData?.footerContent["footer.phone"]}
                 </div>

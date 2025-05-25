@@ -125,7 +125,9 @@
     "coming_soon_cover": "قريبا تغطية",
     "contact_us_boxed": "اتصل بنا محاصر",
     "contact_us_cover": "اتصل بنا الغلاف",
-    "Components":"المكونات",
-    "Select the component you want to add:":"اختر المكون الذي تريد إضافته",
-    "Our Values":"قيمنا"
+    "Components": "المكونات",
+    "Select the component you want to add:": "اختر المكون الذي تريد إضافته",
+    "Our Values": "قيمنا",
+    "Page_Title": "عنوان الصفحة",
+    "Page_Description": "وصف الصفحة"
 }
