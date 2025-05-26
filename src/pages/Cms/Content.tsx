@@ -239,6 +239,7 @@ const Content: React.FC<ContentProps> = ({
                                         />
                                     </li>
                                 ))}
+                                
                             </ReactSortable>
                         )}
                     </div>

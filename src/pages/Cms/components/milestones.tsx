@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import { MilestoneCard } from "./MilestoneCard";
@@ -6,13 +6,17 @@ import { MilestoneCard } from "./MilestoneCard";
 export const Milestones: React.FC = ({ comp,
     contentData = [],
     textEditHandler,
-    setItem,
+    setItem, setPageData, segmentProp
 }) => {
+
 
     const { i18n } = useTranslation()
     const lang = i18n.language
 
     const [activeIndex, setActiveIndex] = useState(1);
+
+
+
     const [showContent, setShowContent] = useState(true);
 
     const handleIndexChange = (index: number) => {
@@ -23,9 +27,71 @@ export const Milestones: React.FC = ({ comp,
         }, 100); // adjust duration as needed
     };
 
+    const handleAddMilestone = () => {
+        const newMilestone = {
+            id: Date.now(),
+            year: "1900",
+            title: "Default Title",
+            description: "Default Description",
+        };
+
+        setPageData((prev) => {
+            const updatedPage = { ...prev };
+
+            const targetSegment = updatedPage.segments.find(seg => seg.id === segmentProp.id);
+            if (!targetSegment) return prev;
+
+            const targetComponent = targetSegment.components.find(c => c.id === comp.id);
+            if (!targetComponent) return prev;
+
+            // Parse the existing content array if needed   
+            let updatedContent = Array.isArray(targetComponent.parsedContent)
+                ? [...targetComponent.parsedContent]
+                : JSON.parse(targetComponent.content);
+
+            updatedContent.push(newMilestone);
+
+            // Update both content (stringified) and parsedContent (actual array)
+            targetComponent.content = JSON.stringify(updatedContent);
+            targetComponent.parsedContent = updatedContent;
+
+            return updatedPage;
+        });
+
+        setActiveIndex(contentData.length); // select the newly added one
+    };
+    const handleDeleteMilestone = (id: number) => {
+        setPageData((prev) => {
+            const updatedPage = { ...prev };
+
+            const targetSegment = updatedPage.segments.find(seg => seg.id === segmentProp.id);
+            if (!targetSegment) return prev;
+
+            const targetComponent = targetSegment.components.find(c => c.id === comp.id);
+            if (!targetComponent) return prev;
+
+            let updatedContent = Array.isArray(targetComponent.parsedContent)
+                ? [...targetComponent.parsedContent]
+                : JSON.parse(targetComponent.content);
+
+            updatedContent = updatedContent.filter(m => m.id !== id);
+
+            targetComponent.content = JSON.stringify(updatedContent);
+            targetComponent.parsedContent = updatedContent;
+
+            return updatedPage;
+        });
+
+        // Reset active index safely
+        if (activeIndex >= contentData.length - 1) {
+            setActiveIndex(Math.max(0, contentData.length - 2));
+        }
+    };
+
+
     const carouselDesktop = (
         <div className="w-full mt-[60px] max-md:mt-10 flex gap-2">
-            {contentData.map((milestone, index) => (
+            {contentData?.map((milestone, index) => (
                 <div
                     key={index}
                     className={`
@@ -48,6 +114,7 @@ export const Milestones: React.FC = ({ comp,
                             textEditHandler={textEditHandler}
                             comp={comp}
                             contentData={contentData}
+                            onDelete={handleDeleteMilestone}
                         />
 
                     ) : (
@@ -77,7 +144,15 @@ export const Milestones: React.FC = ({ comp,
 
 
     return (
-        <section id="history" className="flex w-full max-w-[1178px] flex-col ">
+        <section id="history" className="flex w-full max-w-[1178px] flex-col">
+            <div className="mb-4 text-justify">
+                <button
+                    onClick={handleAddMilestone}
+                    className="px-4 py-2 bg-[#CC1F41] text-white rounded-lg shadow hover:bg-opacity-90 transition"
+                >
+                    + Add Milestone
+                </button>
+            </div>
             {carouselDesktop}
         </section>
     );

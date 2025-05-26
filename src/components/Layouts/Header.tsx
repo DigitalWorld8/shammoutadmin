@@ -143,7 +143,7 @@ const Header = () => {
 
     const { t } = useTranslation();
     const handleLogout = () => {
-        localStorage.removeItem('token'); // or your token key
+        localStorage.removeItem('token');
         navigate('/auth/boxed-signin');
     };
     return (

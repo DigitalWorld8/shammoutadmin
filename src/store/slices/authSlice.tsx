@@ -39,13 +39,16 @@ const authSlice = createSlice({
                 state.isLoading = true;
             })
             .addCase(logInService.fulfilled, (state, action) => {
-                const { token, numberOfLogin, email, lastName, firstName,expiresOn } = action.payload;
+                const { token, numberOfLogin, email, lastName, firstName, expiresOn } = action.payload;
+                console.log('expiresOn', expiresOn);
+
                 state.userName = firstName + " " + lastName
                 state.email = email
                 state.expiresOn = expiresOn
                 state.isLoading = false;
                 state.isLoggedIn = true;
                 state.token = token;
+                console.log('token', token);
                 state.numberOfLogin = numberOfLogin;
                 localStorage.setItem('token', token);
             })

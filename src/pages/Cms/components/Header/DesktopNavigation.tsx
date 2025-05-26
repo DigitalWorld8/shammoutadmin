@@ -15,13 +15,12 @@ export const DesktopNavigation: React.FC<DesktopNavigationProps> = ({ header, la
   useEffect(() => {
     if (header?.content) {
       try {
-        // Parse the JSON string into an object and update the state
         const parsedContent = JSON.parse(header?.content);
         setLabels(parsedContent);
       } catch (error) {
       }
     }
-  }, [header?.content]); // Only run the effect when header.content changes
+  }, [header?.content]); 
 
   // onBlur handler factory
   const handleBlur = (id: string) => (e: React.FocusEvent<HTMLDivElement>) => {

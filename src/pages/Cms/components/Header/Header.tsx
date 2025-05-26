@@ -5,7 +5,7 @@ import { useAppDispatch } from '../../../../store/hooks';
 import { editStaticComponentsService } from '../../../../store/services/pagesService';
 
 
-const Header: React.FC = ({ labels, setLabels, selectedLang }) => {
+const Header: React.FC = ({handleClickEditIcon, pageData, labels, setLabels, selectedLang }) => {
     let lang = selectedLang?.value
 
     const { staticComp } = useAppSelector(state => state.pages);
@@ -17,7 +17,7 @@ const Header: React.FC = ({ labels, setLabels, selectedLang }) => {
     return (
         <>
             <div className="flex w-full   flex-col items-stretch max-md:max-w-full mb-5">
-                <MainNavigation isMobile={false} header={header} labels={labels} setLabels={setLabels} />
+                <MainNavigation handleClickEditIcon={handleClickEditIcon} pageData={pageData} isMobile={false} header={header} labels={labels} setLabels={setLabels} />
             </div>
 
         </>

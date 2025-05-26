@@ -5,7 +5,12 @@ interface MilestoneCardProps {
     title: string;
     description: string;
     index: number;
+    id: number;
     setContentData: React.Dispatch<React.SetStateAction<any[]>>;
+    textEditHandler: Function;
+    comp: any;
+    contentData: any[];
+    onDelete: (id: number) => void; // new
 }
 
 export const MilestoneCard: React.FC<MilestoneCardProps> = ({
@@ -14,7 +19,7 @@ export const MilestoneCard: React.FC<MilestoneCardProps> = ({
     description,
     index,
     id,
-    textEditHandler, comp, contentData
+    textEditHandler, comp, contentData, onDelete
 }) => {
     const handleChange = (index, key, e, id) => {
         const newValue = e.target.innerText;
@@ -46,6 +51,31 @@ export const MilestoneCard: React.FC<MilestoneCardProps> = ({
             transition-all duration-500 ease-in-out
             hover:shadow-[0px_20px_40px_rgba(215,228,249,0.4)]"
         >
+            <button
+                onClick={() => onDelete(id)}
+                className="
+    absolute top-3 right-3 
+    w-8 h-8 flex items-center justify-center 
+    text-gray-400 hover:text-white 
+    bg-gray-100 hover:bg-[#cc1f41] 
+    rounded-full transition-colors duration-300 
+    shadow-sm hover:shadow-md
+  "
+                aria-label="Delete milestone"
+                title="Delete"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
             <div
                 contentEditable
                 suppressContentEditableWarning

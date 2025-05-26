@@ -11,30 +11,32 @@ const CountdownChip: React.FC<CountdownChipProps> = ({ expiresOn }) => {
     const [timeLeft, setTimeLeft] = useState(targetTime - Date.now());
     const [expired, setExpired] = useState(false);
     const navigate = useNavigate()
+    console.log('targetTime - Date.now()', targetTime - Date.now());
+    console.log('targetTime ', targetTime);
+    console.log(' Date.now() ', Date.now());
+
 
     useEffect(() => {
-        if (timeLeft <= 0) {
-            setExpired(true);
-            localStorage.removeItem('token')
-            navigate('/auth/boxed-signin')
-            return;
-        }
-
-        const interval = setInterval(() => {
-            const newTimeLeft = targetTime - Date.now();
-
-            if (newTimeLeft <= 0) {
-                clearInterval(interval);
+        const checkExpiration = () => {
+            const diff = targetTime - Date.now();
+            if (diff <= 0) {
                 setExpired(true);
-                localStorage.removeItem('token')
-                navigate('/auth/boxed-signin')
+                // localStorage.removeItem('token');
+                // navigate('/auth/boxed-signin');
+                return null;
             } else {
-                setTimeLeft(newTimeLeft);
+                setTimeLeft(diff);
             }
-        }, 1000);
+        };
+
+        // Run once immediately
+        checkExpiration();
+
+        // Set interval to keep checking
+        const interval = setInterval(checkExpiration, 1000);
 
         return () => clearInterval(interval);
-    }, [targetTime]);
+    }, [targetTime, navigate]);
 
     const formatTime = (ms: number) => {
         const totalSeconds = Math.floor(ms / 1000);
@@ -51,6 +53,7 @@ const CountdownChip: React.FC<CountdownChipProps> = ({ expiresOn }) => {
 
         return parts.join(' ');
     };
+
 
     return (
         <div className={`inline-block px-4 py-2 rounded-full text-white text-sm font-semibold 

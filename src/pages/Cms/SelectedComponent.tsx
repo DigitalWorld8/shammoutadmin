@@ -15,6 +15,7 @@ import AssistanceSection from './components/AssistanceSection';
 import ReachUsSection from './components/ReachUsSection';
 import EditImageModal from './components/EditImageModal';
 import { setShowModal } from '../../store/slices/pagesSlice';
+import PartnerForm from './components/PartnerForm';
 
 interface ComponentContent {
     title: string;
@@ -33,7 +34,7 @@ interface ComponentsProps {
     } | null;
 }
 
-const Components: React.FC<ComponentsProps> = ({ selectedImg, setSelectedImg, key, item, setItem, setSeg, seg, segmentProp, comp, setTabData, selectedPos, selectedLang, setShowDeleteModal, setDeleteData, setPageData, pageData }) => {
+const Components: React.FC<ComponentsProps> = ({ handleClickEditIcon, selectedImg, setSelectedImg, key, item, setItem, setSeg, seg, segmentProp, comp, setTabData, selectedPos, selectedLang, setShowDeleteModal, setDeleteData, setPageData, pageData }) => {
     const dispatch = useAppDispatch()
     const { showModal } = useAppSelector(state => state.pages)
     const { clickedKey } = useAppSelector(state => state.pages)
@@ -105,7 +106,7 @@ const Components: React.FC<ComponentsProps> = ({ selectedImg, setSelectedImg, ke
 
 
         const updatedSegments = pageData?.segments?.map(segment => {
-            if (segment.id !== seg?.id) return segment;
+            if (segment.id !== segmentProp?.id) return segment;
 
             const firstComponent = segment.components[0];
             if (!firstComponent?.parsedContent) {
@@ -187,25 +188,10 @@ const Components: React.FC<ComponentsProps> = ({ selectedImg, setSelectedImg, ke
         });
     };
 
-    // useEffect(() => {
-    //     if (item?.id && selectedImg) {
-    //         editImgHandler(item); 
-    //     }
-    // }, [item]);
 
-    const handleClickEditIcon = (clickedItem) => {
-        if (!clickedItem) return;
-        console.log('clickedItem From handleClickEditIcon', clickedItem);
-        console.log('segmentProp', segmentProp);
 
-        setSeg(segmentProp)
-        setItem(clickedItem)
-        // editImgHandler(clickedItem);
-        dispatch(setShowModal(true));
+    console.log('pageData', pageData);
 
-    };
-
-console.log('seg',seg);
 
 
     return (
@@ -227,7 +213,7 @@ console.log('seg',seg);
                     <ReachUsSection setSeg={setSeg} seg={segmentProp} setPageData={setPageData} handleClickEditIcon={handleClickEditIcon} setItem={setItem} comp={comp} textEditHandler={textEditHandler} contentData={comp?.parsedContent} />
                 }
                 {comp.type === 'Reach Us Section with cta' &&
-                    <ReachUsSection setSeg={setSeg} seg={segmentProp}  setPageData={setPageData} handleClickEditIcon={handleClickEditIcon} setItem={setItem} comp={comp} textEditHandler={textEditHandler} contentData={comp?.parsedContent} />
+                    <ReachUsSection setSeg={setSeg} seg={segmentProp} setPageData={setPageData} handleClickEditIcon={handleClickEditIcon} setItem={setItem} comp={comp} textEditHandler={textEditHandler} contentData={comp?.parsedContent} />
                 }
                 {comp.type === 'Assistance Section' &&
                     <AssistanceSection handleClickEditIcon={handleClickEditIcon} setItem={setItem} comp={comp} textEditHandler={textEditHandler} contentData={comp?.parsedContent} />
@@ -236,7 +222,7 @@ console.log('seg',seg);
                     <PartnerBanner handleClickEditIcon={handleClickEditIcon} setItem={setItem} comp={comp} textEditHandler={textEditHandler} contentData={comp?.parsedContent} />
                 }
                 {comp.type === 'Milestones Section' &&
-                    <Milestones setItem={setItem} comp={comp} textEditHandler={textEditHandler} contentData={comp?.parsedContent} />
+                    <Milestones segmentProp={segmentProp} setPageData={setPageData} setItem={setItem} comp={comp} textEditHandler={textEditHandler} contentData={comp?.parsedContent} />
                 }
                 {comp.type === 'Industries Section' &&
                     <Industries editImgHandler={editImgHandler} handleClickEditIcon={handleClickEditIcon} setItem={setItem} comp={comp} textEditHandler={textEditHandler} contentData={comp?.parsedContent} />
@@ -244,35 +230,10 @@ console.log('seg',seg);
                 {comp.type === 'Values Section' &&
                     <Values handleClickEditIcon={handleClickEditIcon} setItem={setItem} comp={comp} textEditHandler={textEditHandler} contentData={comp?.parsedContent} />
                 }
-                {/* 
-    
-
-                {comp.type === 'Values Section' &&
-                    <Values contentData={contentData} setContentData={setContentData} setItem={setItem} />
-                } */}
-
-
-                {/* 
-                <button disabled={isLoadingComponent} onClick={formik.handleSubmit} className="px-4 py-2 bg-blue-600 text-white rounded">
-                    {isLoadingComponent ? "Loading ..." : "Save Changes"}
-                </button> */}
-                {/* 
-            <button
-                onClick={() => {
-                    setShowDeleteModal(true)
-
-                    setDeleteData({
-                        type: 'component',
-                        id: comp.id,
-                        itemName: comp.type
-                    })
-                }}
-                type="button" className="px-4 py-2 bg-danger text-white rounded m-1">
-
-                Delete
-            </button> */}
+                                <PartnerForm />
 
             </form>
+
             {showModal && <EditImageModal key={key} item={item} selectedImg={selectedImg} setSelectedImg={setSelectedImg} editImgHandler={editImgHandler} pageData={pageData} onClose={() => dispatch(setShowModal(false))} setPageData={setPageData} />}
         </>
     );

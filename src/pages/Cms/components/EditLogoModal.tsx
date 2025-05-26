@@ -2,10 +2,16 @@ import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { getFilesService } from '../../../store/services/galleriesService';
+import BrowseImagesModal from './BrowseImagesModal';
 
-const EditLogoModal = ({ item, selectedImg, setSelectedImg, editImgHandler, onClose }) => {
+const EditLogoModal = ({ item, editImgHandler, onClose, setLabels, setFooterData, typeLogo }) => {
     const dispatch = useAppDispatch();
-    const { galleryId } = useAppSelector(state => state.gallery);
+    const { galleryInfo, galleryId, isLoading: isGalleryLoading, files, isLoading: isFilesLoading } = useAppSelector(state => state.gallery);
+    const { staticComp } = useAppSelector(state => state.pages);
+    const header = staticComp?.filter((c) => c.language === 'english')?.find((c) => c.type === 'header')
+    console.log('header', header);
+
+    const [selectedImg, setSelectedImg] = useState("")
 
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
     const [isBrowseOpen, setIsBrowseOpen] = useState(false);
@@ -16,6 +22,28 @@ const EditLogoModal = ({ item, selectedImg, setSelectedImg, editImgHandler, onCl
         if (getFilesService.fulfilled.match(action)) {
             setIsBrowseOpen(true);
         }
+    };
+    const handleImageClick = (img: string) => {
+        setSelectedImg(img);
+    };
+
+    const handleSetImage = (newFileCreate) => {
+        const newLogoUrl = selectedImg;
+        if (typeLogo === 'footer') {
+            setFooterData(prev => ({
+                ...prev,
+                logo: newLogoUrl,
+            }));
+        } else if (typeLogo === 'header') {
+            setLabels(prev => ({
+                ...prev,
+                logo: newLogoUrl,
+            }));
+        }
+
+
+
+        onClose();
     };
 
     return (
@@ -31,7 +59,7 @@ const EditLogoModal = ({ item, selectedImg, setSelectedImg, editImgHandler, onCl
 
                 {/* Modal Title */}
                 <h2 className="text-lg font-semibold text-center text-gray-800 mb-6">
-                    Edit Contact Info
+                    Edit Image
                 </h2>
 
                 {/* Action Grid */}
@@ -53,6 +81,17 @@ const EditLogoModal = ({ item, selectedImg, setSelectedImg, editImgHandler, onCl
                     </div>
                 </div>
             </div>
+            {isBrowseOpen &&
+                <BrowseImagesModal
+                    images={files?.items?.map((f) => f?.fileName)}
+                    onClose={() => setIsBrowseOpen(false)}
+                    setSelectedImg={setSelectedImg}
+                    selected={selectedImg}
+                    handleImageClick={handleImageClick}
+                    handleSetImage={handleSetImage}
+
+                />
+            }
         </div>
     );
 };

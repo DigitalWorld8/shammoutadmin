@@ -47,74 +47,75 @@ const LinkSection: React.FC<LinkSectionProps> = ({ index, titleKey, linkKeys, ha
 
 
 
-export const Footer: React.FC = ({ setFooterData, selectedLang }) => {
+export const Footer: React.FC = ({ footerData, setFooterData, selectedLang,handleClickEditIcon }) => {
   const dispatch = useAppDispatch()
 
   const { isLoadingUpdateConstComp, staticComp } = useAppSelector(state => state.pages);
   let lang = selectedLang?.value
   const footer = staticComp?.filter((c) => c.language === lang)?.find((c) => c.type === 'footer')
 
-  const footerData = footer?.content ? JSON.parse(footer.content) : null;
+  // const footerData = footer?.content ? JSON.parse(footer.content) : null;
 
-  // console.log('footerData', footerData);
+  console.log('footerData', footerData);
 
 
 
-const handleInput = (
-  type: 'title' | 'link' | string,
-  newText: string,
-  sectionIndex?: number,
-  linkIndex?: number
-) => {
-  setFooterData(prev => {
-    if (!prev) return prev;
 
-    if (type.startsWith("footerContent.")) {
-      const cleanedKey = type.replace("footerContent.", "");
-      const [section, field] = cleanedKey.split(".");
-      return {
-        ...prev,
-        footerContent: {
-          ...prev.footerContent,
-          [cleanedKey]: newText,
-          [section]: {
-            ...(prev.footerContent[section] || {}),
-            [field]: newText,
+  const handleInput = (
+    type: 'title' | 'link' | string,
+    newText: string,
+    sectionIndex?: number,
+    linkIndex?: number
+  ) => {
+    setFooterData(prev => {
+      if (!prev) return prev;
+
+      if (type.startsWith("footerContent.")) {
+        const cleanedKey = type.replace("footerContent.", "");
+        const [section, field] = cleanedKey.split(".");
+        return {
+          ...prev,
+          footerContent: {
+            ...prev.footerContent,
+            [cleanedKey]: newText,
+            [section]: {
+              ...(prev.footerContent[section] || {}),
+              [field]: newText,
+            },
           },
-        },
-      };
-    }
-
-    if (typeof sectionIndex === "number") {
-      const updatedSections = [...prev.sections];
-      const section = updatedSections[sectionIndex];
-      if (!section) return prev;
-
-      if (type === "title") {
-        updatedSections[sectionIndex] = {
-          ...section,
-          titleKey: newText,
         };
       }
 
-      if (type === "link" && typeof linkIndex === "number") {
-        const updatedLinks = [...section.linkKeys];
-        updatedLinks[linkIndex] = newText;
-        updatedSections[sectionIndex] = {
-          ...section,
-          linkKeys: updatedLinks,
+      if (typeof sectionIndex === "number") {
+        const updatedSections = [...prev.sections];
+        const section = updatedSections[sectionIndex];
+        if (!section) return prev;
+
+        if (type === "title") {
+          updatedSections[sectionIndex] = {
+            ...section,
+            titleKey: newText,
+          };
+        }
+
+        if (type === "link" && typeof linkIndex === "number") {
+          const updatedLinks = [...section.linkKeys];
+          updatedLinks[linkIndex] = newText;
+          updatedSections[sectionIndex] = {
+            ...section,
+            linkKeys: updatedLinks,
+          };
+        }
+
+        return {
+          ...prev,
+          sections: updatedSections,
         };
       }
 
-      return {
-        ...prev,
-        sections: updatedSections,
-      };
-    }
-
-    return prev;
-  });
-};
+      return prev;
+    });
+  };
 
 
   // const submitFooterData = () => {
@@ -135,11 +136,23 @@ const handleInput = (
         <div className="flex gap-5 max-md:flex-col">
           {/* Left Column */}
           <div className="w-1/3 max-md:w-full">
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/0088fdfbc5f845fe86a1c89db6aed806/b90175c767f60b77806a9a51f49bdc0376c9758d"
-              alt="Shammout Group Logo"
-              className="w-[203px] object-contain"
-            />
+            <div className="relative">
+
+              <img
+                src={footerData?.logo}
+                alt="Shammout Group Logo"
+                className="w-[203px] object-contain"
+              />
+              <button
+                onClick={() => {
+                  handleClickEditIcon("footer")
+                }}
+                className="absolute bottom-10 left-0 bg-white bg-opacity-90 p-1 rounded-full shadow  hover:text-white transition"
+                title="Edit Logo URL"
+              >
+                ✏️
+              </button>
+            </div>
             <p
               contentEditable
               suppressContentEditableWarning
@@ -156,7 +169,7 @@ const handleInput = (
                   suppressContentEditableWarning
                   onBlur={e => handleInput("footerContent.footer.phone", e.currentTarget.textContent || "")}
                   className="text-white text-[13px] font-bold cursor-text"
-                  style={{direction:'ltr'}}
+                  style={{ direction: 'ltr' }}
                 >
                   {footerData?.footerContent["footer.phone"]}
                 </div>

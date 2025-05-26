@@ -13,7 +13,7 @@ export const getGalleryByIdService = createAsyncThunk<
     `${sliceName}/getPageByIdService`,
     async ({ id }, thunkAPI) => {
         try {
-            const response = await apiClient.get(`${BASE_GALLERY_PROD_URL}/${FileURL}/${id}`, {
+            const response = await apiClient.get(`${BASE_GALLERY_PROD_URL}/${Gallery}/${id}`, {
                 headers: getHeadres()
             });
             return response.data;

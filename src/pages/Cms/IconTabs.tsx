@@ -28,6 +28,7 @@ import Content from './Content';
 import PageFilter from './PageFilter';
 import PagesTabList from './PagesTabList';
 import Swal from 'sweetalert2';
+import EditLogoModal from './components/EditLogoModal';
 
 const posOptions = [
     { label: 'sy', value: 'sy' }
@@ -55,6 +56,7 @@ const IconTabs = ({ segmentFormik, pageData,
     setSelectedComponent,
     setDeleteData,
     setShowDeleteModal, }) => {
+    const [typeLogo, setTypeLogo] = useState('')
     const dir = selectedLang.value === 'english' ? 'ltr' : 'rtl'
     const { pages, page, selectedPage, subPages, metaDataItems, staticComp, isLoading, isLoadingSegment, isLoadingComponent } = useAppSelector((state) => state.pages);
     const isLoadingCreate = isLoadingSegment || isLoadingComponent || isLoading
@@ -113,6 +115,8 @@ const IconTabs = ({ segmentFormik, pageData,
     const [labels, setLabels] = React.useState<Record<string, string>>({
 
     });
+    console.log('labels', labels);
+
     const [footerData, setFooterData] = useState<any>();
 
     useEffect(() => {
@@ -255,16 +259,6 @@ const IconTabs = ({ segmentFormik, pageData,
 
 
 
-    const submitHeaderData = () => {
-        const content = JSON.stringify(labels);
-        return dispatch(editStaticComponentsService({
-            data: {
-                id: header.id,
-                type: 'header',
-                content
-            }
-        }));
-    };
 
     const saveChanges = async () => {
         try {
@@ -314,7 +308,6 @@ const IconTabs = ({ segmentFormik, pageData,
                     language: selectedLang.value
                 }
             }));
-            console.log('footerData', footerData);
 
             const footerContent = JSON.stringify(footerData);
 
@@ -327,7 +320,6 @@ const IconTabs = ({ segmentFormik, pageData,
                 }
             }));
 
-            console.log('Changes saved successfully!');
         } catch (error) {
             console.log('Error saving changes:', error);
         }
@@ -375,6 +367,14 @@ const IconTabs = ({ segmentFormik, pageData,
         showAlert(10);
         setSelectedComponent(component)
     };
+
+    const [showEditLogoModal, setShowLogoModal] = useState(false)
+    const handleClickEditIcon = (type) => {
+        console.log('type', type);
+        setTypeLogo(type)
+        setShowLogoModal(true)
+    }
+
 
     return (
         <div className="panel" id="icon" style={{
@@ -434,7 +434,9 @@ const IconTabs = ({ segmentFormik, pageData,
                                     selectedPos={selectedPos}
                                 />
                                 <div className="my-1">
-                                    <Header labels={labels} setLabels={setLabels} selectedLang={selectedLang} />
+                                    <Header
+                                        handleClickEditIcon={handleClickEditIcon}
+                                        pageData={pageData} labels={labels} setLabels={setLabels} selectedLang={selectedLang} />
                                 </div>
                                 <Content
                                     pageData={pageData}
@@ -452,13 +454,18 @@ const IconTabs = ({ segmentFormik, pageData,
                                     setIsSegmentModalOpen={setIsSegmentModalOpen}
                                 />
                                 <div className="my-1">
-                                    <Footer footerData={footerData} setFooterData={setFooterData} selectedLang={selectedLang} />
+                                    <Footer handleClickEditIcon={handleClickEditIcon} footerData={footerData} setFooterData={setFooterData} selectedLang={selectedLang} />
                                 </div>
                             </div>
                         </div>
                     }
                 </Tab.Panels>
             </Tab.Group>
+            {
+                showEditLogoModal &&
+
+                <EditLogoModal typeLogo={typeLogo} setFooterData={setFooterData} setLabels={setLabels} onClose={() => setShowLogoModal(false)} />
+            }
         </div >
     );
 };

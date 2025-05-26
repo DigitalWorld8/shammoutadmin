@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { DesktopNavigation } from "./DesktopNavigation";
 import Tippy from "@tippyjs/react";
 import IconFile from "../../../../components/Icon/IconFile";
 import { useAppSelector } from "../../../../store";
 import Loader from "../../../../utils/Loader";
+import { useDispatch } from "react-redux";
+import { setShowModal } from "../../../../store/slices/pagesSlice";
+import EditLogoModal from "../EditLogoModal";
 
 interface MainNavigationProps {
     isMobile: boolean;
 }
 
-export const MainNavigation: React.FC<MainNavigationProps> = ({ isMobile, header, labels, setLabels, submitHeaderData }) => {
+export const MainNavigation: React.FC<MainNavigationProps> = ({ handleClickEditIcon, pageData, isMobile, header, labels, setLabels, submitHeaderData }) => {
     const { isLoadingUpdateConstComp } = useAppSelector(state => state.pages);
+    const dispatch = useDispatch()
+
+
 
     return (
         <>
@@ -26,13 +32,13 @@ export const MainNavigation: React.FC<MainNavigationProps> = ({ isMobile, header
                         /> */}
                         <div className="relative inline-block">
                             <img
-                                src="https://cdn.builder.io/api/v1/image/assets/0088fdfbc5f845fe86a1c89db6aed806/ef55696ff67ea3de1f900af9552cd47587ba243e"
+                                src={labels?.logo}
                                 alt="Logo"
                                 className="aspect-[3.1] object-contain w-[120px] md:w-[167px]"
                             />
                             <button
                                 onClick={() => {
-                                    // setIsUploadModalOpen(true)
+                                    handleClickEditIcon("header")
                                 }}
                                 className="absolute bottom-10 left-0 bg-white bg-opacity-90 p-1 rounded-full shadow  hover:text-white transition"
                                 title="Edit Logo URL"
@@ -53,6 +59,7 @@ export const MainNavigation: React.FC<MainNavigationProps> = ({ isMobile, header
                                 </Tippy>
                             }
                         </div> */}
+
                     </div>
                 </nav>
             )}

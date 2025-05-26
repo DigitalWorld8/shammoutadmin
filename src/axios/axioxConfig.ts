@@ -37,6 +37,7 @@ const setupInterceptors = (navigate: NavigateFunction) => {
             const data = response.data;
 
             if ((response.status === 200 || response.status === 201) && data?.message) {
+                
                 Toast.fire({
                     icon: 'success',
                     title: data.message,

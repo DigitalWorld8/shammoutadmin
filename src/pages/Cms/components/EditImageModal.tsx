@@ -25,11 +25,13 @@ const EditImageModal = ({ item, key, selectedImg, setSelectedImg, editImgHandler
 
     }
     const handleImageClick = (img: string) => {
+
         setSelectedImg(img);
     };
 
 
     const handleSetImage = (newFileCreate) => {
+
         editImgHandler(item, newFileCreate)
         onClose();
     };
@@ -47,7 +49,7 @@ const EditImageModal = ({ item, key, selectedImg, setSelectedImg, editImgHandler
 
                 {/* Modal Title */}
                 <h2 className="text-lg font-semibold text-gray-800 mb-6 text-center">
-                    Edit Contact Info
+                    Edit Image
                 </h2>
 
                 {/* Grid Layout */}

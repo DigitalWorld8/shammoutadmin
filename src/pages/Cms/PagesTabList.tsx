@@ -83,15 +83,7 @@ const PagesTabList = ({ tabData, handleTabSelect, setIsModalOpen, saveChanges }:
             {/* Right side: Save Changes button */}
             <div className="flex items-center gap-4 mt-4">
 
-                <button
-                    onClick={() => {
-                        setIsLogoModalOpen(true);
 
-                    }}
-                    className="bg-pink-600 hover:bg-pink-700 text-white font-semibold rounded-lg px-6 py-2 transition-all duration-200"
-                >
-                    Edit Logo
-                </button>
                 <button
                     onClick={() => {
                         setIsModalOpen(true);
@@ -110,7 +102,7 @@ const PagesTabList = ({ tabData, handleTabSelect, setIsModalOpen, saveChanges }:
                 </button>
 
             </div>
-            
+
             <LogoEditor
                 logo={logo}
                 isModalOpen={isLogoModalOpen}
