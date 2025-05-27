@@ -217,7 +217,7 @@ const Header = () => {
                             </button>
                         </div>
                         <div>
-                            <CountdownChip expiresOn="2025-05-26T09:25:13Z" />
+                            <CountdownChip />
 
                         </div>
                         <div>

@@ -40,7 +40,7 @@ export const logInService = createAsyncThunk<LoginResponse, LoginRequest, { reje
 
 export const logInOtpService = createAsyncThunk<LoginResponse, LoginRequest, { rejectValue: any }>(`${sliceName}/logInOtpService`, async (data, thunkAPI) => {
     try {
-        const response = await apiClient.post(`${BASE_PROD_URL}:${LOG_IN_PORT}/${LogInWithOTP}`, data, {
+        const response = await apiClient.post(`${BASE_PROD_URL}/${auth}/${Authentication}/${LogInWithOTP}`, data, {
             headers: getHeadres(),
         });
 
@@ -53,7 +53,7 @@ export const logInOtpService = createAsyncThunk<LoginResponse, LoginRequest, { r
 
 export const resetPasswordService = createAsyncThunk<LoginResponse, LoginRequest, { rejectValue: any }>(`${sliceName}/resetPasswordService`, async (data, thunkAPI) => {
     try {
-        const response = await apiClient.post(`${authenticationAPi}:${LOG_IN_PORT}/${ResetPassword}`, data, {
+        const response = await apiClient.post(`${BASE_PROD_URL}/${auth}/${Authentication}/${ResetPassword}`, data, {
             headers: getHeadres(),
         });
 
@@ -66,7 +66,7 @@ export const resetPasswordService = createAsyncThunk<LoginResponse, LoginRequest
 
 export const FirstResetPasswordService = createAsyncThunk<LoginResponse, LoginRequest, { rejectValue: any }>(`${sliceName}/FirstResetPasswordService`, async (data, thunkAPI) => {
     try {
-        const response = await apiClient.post(`${authenticationAPi}:${LOG_IN_PORT}/${FirstResetPassword}`, data, {
+        const response = await apiClient.post(`${BASE_PROD_URL}/${auth}/${Authentication}/${FirstResetPassword}`, data, {
             headers: getHeadres(),
         });
 
@@ -77,7 +77,7 @@ export const FirstResetPasswordService = createAsyncThunk<LoginResponse, LoginRe
 });
 export const ResetPasswordService = createAsyncThunk<LoginResponse, ResetRequest, { rejectValue: any }>(`${sliceName}/ResetPasswordService`, async (data, thunkAPI) => {
     try {
-        const response = await apiClient.post(`${authenticationAPi}:${LOG_IN_PORT}/${ForgetPassword}`, data, {
+        const response = await apiClient.post(`${BASE_PROD_URL}/${auth}/${Authentication}/${ResetPassword}`, data, {
             headers: getHeadres(),
         });
 

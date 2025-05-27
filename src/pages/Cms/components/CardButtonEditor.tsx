@@ -1,9 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Settings } from "lucide-react";
-
+import Select from 'react-select'
+import { useAppSelector } from "../../../store";
 export default function CardButtonEditor({ card, onUpdate, setSeg, seg }) {
+    const btnStyles = {
+        outlined: " flex-1 mt-4  px-6 py-2 border-2 border-rose-600 text-rose-600 rounded-lg font-semibold hover:bg-rose-600 hover:text-white transition-colors",
+        contained: " flex-1 mt-4 px-6 py-2  border-2 border-rose-600 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-700 transition-colors",
+    };
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+    const { pages } = useAppSelector(state => state.pages)
     // Unified state object
     const [btnInfo, setBtnInfo] = useState({
         label: card?.btnLabel || "",
@@ -18,13 +23,39 @@ export default function CardButtonEditor({ card, onUpdate, setSeg, seg }) {
         onUpdate(btnInfo);
         setIsDropdownOpen(false);
     };
+    const internalOptions = pages?.map((p => {
+        return {
+            label: p?.pageUrlName,
+            value: p?.pageUrlName,
+        }
+    }))
+    const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target)
+            ) {
+                setIsDropdownOpen(false);
+            }
+        }
+
+        if (isDropdownOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isDropdownOpen]);
 
     return (
         <div className="relative inline-flex items-center gap-2">
             {/* Main Button */}
             <button
                 type="button"
-                className="flex-1 px-6 py-2 border-2 border-rose-600 text-rose-600 rounded-lg font-semibold hover:bg-rose-600 hover:text-white transition-colors"
+                className={btnStyles[btnInfo?.style]}
                 onClick={() => {
                     if (btnInfo.link) {
                         if (btnInfo.linkType === "external") {
@@ -52,7 +83,7 @@ export default function CardButtonEditor({ card, onUpdate, setSeg, seg }) {
 
             {/* Dropdown */}
             {isDropdownOpen && (
-                <div className="absolute top-12 right-0 bg-white border border-gray-300 rounded-lg p-4 shadow-md z-10 w-72">
+                <div ref={dropdownRef} className="absolute top-12 right-0 bg-white border border-gray-300 rounded-lg p-4 shadow-md z-10 w-72">
                     {/* Label Input */}
                     <div className="mb-3">
                         <label className="block text-sm font-medium mb-1">Button Label</label>
@@ -98,13 +129,26 @@ export default function CardButtonEditor({ card, onUpdate, setSeg, seg }) {
                         <label className="block text-sm font-medium mb-1">
                             {btnInfo.linkType === "external" ? "External URL" : "Internal Path"}
                         </label>
-                        <input
-                            type="text"
-                            value={btnInfo.link}
-                            onChange={(e) => setBtnInfo({ ...btnInfo, link: e.target.value })}
-                            placeholder={btnInfo.linkType === "external" ? "https://..." : "/about"}
-                            className="w-full border rounded px-2 py-1 text-sm"
-                        />
+                        {btnInfo.linkType === "external" ? (
+                            <input
+                                type="text"
+                                value={btnInfo.link}
+                                onChange={(e) => setBtnInfo({ ...btnInfo, link: e.target.value })}
+                                placeholder="https://..."
+                                className="w-full border rounded px-2 py-1 text-sm"
+                            />
+                        ) : (
+                            <Select
+                                options={internalOptions}
+                                value={internalOptions.find((opt) => opt.value === btnInfo.link)}
+                                onChange={(selected) =>
+                                    setBtnInfo({ ...btnInfo, link: selected?.value || "" })
+                                }
+                                className="text-sm"
+                                placeholder="Select internal page"
+                            />
+                        )}
+
                     </div>
 
                     {/* Style Selection */}

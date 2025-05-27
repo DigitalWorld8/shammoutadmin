@@ -133,7 +133,14 @@ const LoginBoxed = () => {
 
         return { label, placeholder };
     };
+    const modeFlow = ['', 'otp', 'password'];
 
+    const handleBack = () => {
+        const currentIndex = modeFlow.indexOf(mode);
+        if (currentIndex > 0) {
+            dispatch(setMode(modeFlow[currentIndex - 1]));
+        }
+    };
     return (
         <div>
             <div className="absolute inset-0">
@@ -193,6 +200,7 @@ const LoginBoxed = () => {
                                 <h1 className="text-3xl font-extrabold uppercase !leading-snug text-primary md:text-4xl">{mode === 'otp' ? 'Sign in with otp' : 'Sign in'}</h1>
                                 <p className="text-base font-bold leading-normal text-white-dark">Enter your email and password to login</p>
                             </div>
+
                             <form className="space-y-5 dark:text-white" onSubmit={formik.handleSubmit}>
                                 {!mode && (
                                     <div className={formik.submitCount ? (formik.errors.email ? 'has-error' : 'has-success') : ''}>
@@ -217,7 +225,7 @@ const LoginBoxed = () => {
                                             formik.errors.email ? (
                                                 <div className="text-danger mt-1">{formik.errors.email}</div>
                                             ) : (
-                                               <></>
+                                                <></>
                                             )
                                         ) : null}
                                     </div>
@@ -245,7 +253,7 @@ const LoginBoxed = () => {
                                         formik.errors.password ? (
                                             <div className="text-danger mt-1">{formik.errors.password}</div>
                                         ) : (
-                                           <></>
+                                            <></>
                                         )
                                     ) : null}
                                 </div>
@@ -283,6 +291,18 @@ const LoginBoxed = () => {
                                 <button type="submit" disabled={false} className="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
                                     {!isLoading ? 'Sign in' : 'Loading...'}
                                 </button>
+                                {/* {mode !== '' && ( */}
+                                {mode !== '' && (
+                                    <button
+                                        type="button"
+                                        onClick={handleBack}
+
+                                        className="mt-4 w-full rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-semibold uppercase text-gray-700  hover:bg-gray-50 transition duration-150"
+                                    >
+                                        Back
+                                    </button>
+
+                                )}
                             </form>
 
                             {/* <div className="relative my-7 text-center md:mb-9">

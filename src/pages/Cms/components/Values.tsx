@@ -32,8 +32,7 @@ export const Values: React.FC = ({ comp,
 
     const titleIndex = contentData?.findIndex((v) => v.key === "title");
     const titleItem = contentData[titleIndex];
-    console.log('titleIndex', titleIndex);
-    console.log('titleItem', titleItem);
+
 
     return (
         <section

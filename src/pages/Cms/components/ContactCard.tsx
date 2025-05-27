@@ -36,8 +36,6 @@ const ContactCard: React.FC<ContactCardProps> = ({
   const [btnLink, setBtnLink] = useState(card?.btnLink || "");
 
   const onUpdate = (updatedBtnInfo) => {
-    console.log('card', card.id);
-    console.log('seg', seg.id);
 
     setPageData((prevData) => {
       if (!Array.isArray(prevData?.segments)) return prevData;

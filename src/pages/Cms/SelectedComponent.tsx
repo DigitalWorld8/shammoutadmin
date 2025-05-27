@@ -148,12 +148,11 @@ const Components: React.FC<ComponentsProps> = ({ handleClickEditIcon, selectedIm
     };
 
 
-    // console.log('pageData', pageData);
-    // console.log('comp', comp);
-
 
     const textEditHandler = (comp, itemId, key) => (e) => {
         const value = e.target.innerText;
+        console.log('comp', comp);
+        console.log('itemId', itemId);
 
         setPageData((prevData) => {
             if (!Array.isArray(prevData?.segments)) return prevData;
@@ -190,7 +189,51 @@ const Components: React.FC<ComponentsProps> = ({ handleClickEditIcon, selectedIm
 
 
 
-    console.log('pageData', pageData);
+    const servicesTextHandler = (comp, segmentProp, serviceId, key) => (e) => {
+        const value = e.target.innerText;
+
+        setPageData((prevData) => {
+            if (!Array.isArray(prevData?.segments)) return prevData;
+
+            const updatedSegments = prevData.segments.map((segment) => {
+                if (segment.id !== segmentProp.id) return segment;
+
+                const updatedComponents = segment.components.map((component) => {
+                    if (component.id !== comp.id) return component;
+
+                    const updatedParsedContent = component.parsedContent.map((contentItem) => {
+                        // Make sure the contentItem contains services
+                        if (!Array.isArray(contentItem.services)) return contentItem;
+
+                        const updatedServices = contentItem.services.map((service) => {
+                            if (service.id !== serviceId) return service;
+                            return { ...service, [key]: value };
+                        });
+
+                        return {
+                            ...contentItem,
+                            services: updatedServices,
+                        };
+                    });
+
+                    return {
+                        ...component,
+                        parsedContent: updatedParsedContent,
+                    };
+                });
+
+                return {
+                    ...segment,
+                    components: updatedComponents,
+                };
+            });
+
+            return {
+                ...prevData,
+                segments: updatedSegments,
+            };
+        });
+    };
 
 
 
@@ -230,7 +273,9 @@ const Components: React.FC<ComponentsProps> = ({ handleClickEditIcon, selectedIm
                 {comp.type === 'Values Section' &&
                     <Values handleClickEditIcon={handleClickEditIcon} setItem={setItem} comp={comp} textEditHandler={textEditHandler} contentData={comp?.parsedContent} />
                 }
-                                <PartnerForm />
+                {comp.type === 'partner us form' &&
+                    <PartnerForm segmentProp={segmentProp} servicesTextHandler={servicesTextHandler} textEditHandler={textEditHandler} contentData={comp?.parsedContent} comp={comp} />
+                }
 
             </form>
 

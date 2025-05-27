@@ -16,7 +16,7 @@ import Loader from "../../utils/Loader";
 import { updateSegmentService } from "../../store/services/pagesService";
 import { useAppDispatch } from "../../store/hooks";
 import { s } from "@fullcalendar/core/internal-common";
-import { GripHorizontal } from "lucide-react";
+import { ChevronDown, ChevronUp, GripHorizontal } from "lucide-react";
 
 interface ContentProps {
     pageData: any;
@@ -117,6 +117,18 @@ const Content: React.FC<ContentProps> = ({
             segments: updatedSegments,
         }));
     };
+const moveSegment = (fromIndex, toIndex) => {
+    if (toIndex < 0 || toIndex >= pageData.segments.length) return;
+
+    const updated = [...pageData.segments];
+    const [movedItem] = updated.splice(fromIndex, 1);
+    updated.splice(toIndex, 0, movedItem);
+
+    // Optionally update positions
+    updated.forEach((seg, idx) => seg.position = idx);
+
+    setPageData(prev => ({ ...prev, segments: updated }));
+};
 
     return (
         <ReactSortable
@@ -133,6 +145,26 @@ const Content: React.FC<ContentProps> = ({
                     <div key={sIdx} className="border p-4 rounded bg-white dark:bg-[#1e293b] shadow">
                         <div className="flex flex-col ">
                             <div className="flex justify-end  gap-1">
+                                <Tippy content="Move Up">
+                                    <button
+                                        disabled={sIdx === 0}
+                                        onClick={() => moveSegment(sIdx, sIdx - 1)}
+                                        className={`p-1 rounded-full transition-all duration-200 transform hover:scale-110 ${sIdx === 0 ? 'text-gray-300' : 'text-gray-500 hover:text-white hover:bg-gray-600'
+                                            }`}
+                                    >
+                                        <ChevronUp size={18} />
+                                    </button>
+                                </Tippy>
+                                <Tippy content="Move Down">
+                                    <button
+                                        disabled={sIdx === pageData.segments.length - 1}
+                                        onClick={() => moveSegment(sIdx, sIdx + 1)}
+                                        className={`p-1 rounded-full transition-all duration-200 transform hover:scale-110 ${sIdx === pageData.segments.length - 1 ? 'text-gray-300' : 'text-gray-500 hover:text-white hover:bg-gray-600'
+                                            }`}
+                                    >
+                                        <ChevronDown size={18} />
+                                    </button>
+                                </Tippy>
                                 <Tippy content="Drag Segment">
                                     <span
                                         className="cursor-move p-1 rounded-full text-gray-500 hover:text-white hover:bg-gray-600 transition-all duration-200 transform hover:scale-110"
@@ -239,7 +271,7 @@ const Content: React.FC<ContentProps> = ({
                                         />
                                     </li>
                                 ))}
-                                
+
                             </ReactSortable>
                         )}
                     </div>

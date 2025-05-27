@@ -40,10 +40,11 @@ const authSlice = createSlice({
             })
             .addCase(logInService.fulfilled, (state, action) => {
                 const { token, numberOfLogin, email, lastName, firstName, expiresOn } = action.payload;
-                console.log('expiresOn', expiresOn);
 
                 state.userName = firstName + " " + lastName
                 state.email = email
+                // for test after 20 s
+                // state.expiresOn = new Date(Date.now() + 20 * 1000).toISOString()
                 state.expiresOn = expiresOn
                 state.isLoading = false;
                 state.isLoggedIn = true;

@@ -47,7 +47,7 @@ const LinkSection: React.FC<LinkSectionProps> = ({ index, titleKey, linkKeys, ha
 
 
 
-export const Footer: React.FC = ({ footerData, setFooterData, selectedLang,handleClickEditIcon }) => {
+export const Footer: React.FC = ({ footerData, setFooterData, selectedLang, handleClickEditIcon }) => {
   const dispatch = useAppDispatch()
 
   const { isLoadingUpdateConstComp, staticComp } = useAppSelector(state => state.pages);
@@ -55,7 +55,6 @@ export const Footer: React.FC = ({ footerData, setFooterData, selectedLang,handl
   const footer = staticComp?.filter((c) => c.language === lang)?.find((c) => c.type === 'footer')
 
   // const footerData = footer?.content ? JSON.parse(footer.content) : null;
-
   console.log('footerData', footerData);
 
 
@@ -153,17 +152,16 @@ export const Footer: React.FC = ({ footerData, setFooterData, selectedLang,handl
                 ✏️
               </button>
             </div>
-            <p
+            {/* <p
               contentEditable
               suppressContentEditableWarning
               onBlur={e => handleInput("footerContent.footer.newsletterDescription", e.currentTarget.textContent || "")}
               className="mt-9 text-[13px] text-white leading-[21px] cursor-text"
             >
               {footerData?.footerContent["footer.newsletterDescription"]}
-            </p>
-            <NewsletterFormWithCaptcha />
-            <div className="mt-10 flex items-center gap-5">
-              <div>
+            </p> */}
+            <div className="mt-2 flex items-center gap-5">
+              {/* <div>
                 <div
                   contentEditable
                   suppressContentEditableWarning
@@ -176,20 +174,81 @@ export const Footer: React.FC = ({ footerData, setFooterData, selectedLang,handl
                 <div
                   contentEditable
                   suppressContentEditableWarning
+                  onBlur={e => handleInput("footerContent.footer.title", e.currentTarget.textContent || "")}
+                  className="text-white text-[13px] font-bold cursor-text"
+                  style={{ direction: 'ltr' }}
+                >
+                  {footerData?.footerContent["footer.title"]}
+                </div>
+                <div
+                  contentEditable
+                  suppressContentEditableWarning
+                  onBlur={e => handleInput("footerContent.footer.email", e.currentTarget.textContent || "")}
+                  className="text-white text-[13px] font-bold cursor-text"
+                  style={{ direction: 'ltr' }}
+                >
+                  {footerData?.footerContent["footer.email"]}
+                </div>
+                <div
+                  contentEditable
+                  suppressContentEditableWarning
                   onBlur={e => handleInput("footerContent.footer.address", e.currentTarget.textContent || "")}
                   className="mt-1 text-[9px] text-[rgba(175,175,175,1)] cursor-text"
                 >
                   {footerData?.footerContent["footer.address"]}
                 </div>
+              </div> */}
+              <div className="flex flex-col gap-5   max-w-sm">
+                <div className="self-stretch">
+                  <h4
+                    contentEditable
+                    suppressContentEditableWarning
+                    onBlur={e => handleInput("footerContent.footer.title", e.currentTarget.textContent || "")}
+                    className="text-white text-lg font-extrabold leading-tight mb-1"
+                  >
+                    {footerData?.footerContent?.footer?.title}
+                  </h4>
+
+                  <p
+                    contentEditable
+                    suppressContentEditableWarning
+                    onBlur={e => handleInput("footerContent.footer.phone", e.currentTarget.textContent || "")}
+                    style={{ direction: "ltr" }}
+                    className="text-white text-sm font-semibold leading-snug mb-2"
+                  >
+                    {footerData?.footerContent?.footer?.phone}
+                  </p>
+
+                  <p
+                    contentEditable
+                    suppressContentEditableWarning
+                    onBlur={e => handleInput("footerContent.footer.email", e.currentTarget.textContent || "")}
+                    style={{ direction: "ltr" }}
+                    className="text-white text-sm font-semibold leading-snug mb-2"
+                  >
+                    {footerData?.footerContent?.footer?.email}
+                  </p>
+
+                  <p
+                    contentEditable
+                    suppressContentEditableWarning
+                    onBlur={e => handleInput("footerContent.footer.address", e.currentTarget.textContent || "")}
+                    className="text-gray-400 text-sm font-normal leading-snug mb-1"
+                  >
+                    {footerData?.footerContent?.footer?.address}
+                  </p>
+
+
+                </div>
               </div>
-              <a
+              {/* <a
                 contentEditable
                 suppressContentEditableWarning
                 onBlur={e => handleInput("footerContent.footer.callUs", e.currentTarget.textContent || "")}
                 className="text-white border border-white px-4 py-2 text-[9px] font-bold uppercase hover:bg-white hover:bg-opacity-10 transition-colors rounded cursor-text"
               >
                 {footerData?.footerContent["footer.callUs"]}
-              </a>
+              </a> */}
             </div>
           </div>
 
@@ -204,9 +263,12 @@ export const Footer: React.FC = ({ footerData, setFooterData, selectedLang,handl
                     linkKeys={sec?.linkKeys}
                     handleInput={handleInput}
                   />
-
+                  {sec.type === 'contact' &&
+                    <NewsletterFormWithCaptcha />
+                  }
                 </div>
               ))}
+              {/* <NewsletterFormWithCaptcha /> */}
 
 
             </div>
